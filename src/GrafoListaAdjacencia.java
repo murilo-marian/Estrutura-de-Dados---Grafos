@@ -122,21 +122,19 @@ public class GrafoListaAdjacencia {
         // Tenta adicionar vértices ao caminhoHamiltoniano
         for (int v = 1; v < nVertices; v++) {
             if (isAdjacente(pilha.peek(), v) && !pilha.contains(v)) {
+
                 caminho[pos] = v;
                 pilha.push(v);
 
                 String hamilton = hamiltonianoRecursivo(caminho, pilha, pos + 1);
-                if (hamilton.equals("hamiltoniano")) {
-                    return "hamiltoniano";
-                } else if (hamilton.equals("semi-hamiltoniano")) {
-                    return "semi-hamiltoniano";
+                if (!hamilton.equals("não-hamiltoniano")) {
+                    return hamilton;
                 }
                 // Backtrack se a o vértice usado não levava a um caminho hamiltoniano
                 caminho[pos] = -1;
                 pilha.pop();
             }
         }
-
         return "não-hamiltoniano";
     }
 
@@ -152,7 +150,7 @@ public class GrafoListaAdjacencia {
         return "Euleriano";
     }
 
-    public String isSemiEuleriano() {
+    private String isSemiEuleriano() {
         int contador = 0;
         for (int i = 0; i < nVertices; i++) {
             if (adjacencias.get(i).size() % 2 != 0) {
